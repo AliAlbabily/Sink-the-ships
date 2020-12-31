@@ -4,6 +4,7 @@
 - I made this project using Intellij Community Edition.
 - You can start by creating an empty Java project without including any frameworks.
 - Use a JDK that supports Swing GUI-library. For this project I used JDK 14.0.2 
+
 Once you are done with all the points above, simply use the "src" folder and add it to your project.
 
 
