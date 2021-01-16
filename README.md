@@ -18,7 +18,6 @@ You start the game by choosing 1 of two maps by using Intellij's terminal. You a
 - Inheritance
 - Encapsulation
 - Polymorphism
-- Hierarchy 
 
 
 ## Some shots of the game :
