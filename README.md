@@ -15,7 +15,6 @@ You start the game by choosing 1 of two maps by using Intellij's terminal. You a
 ## What is used in this project :
 - MVC pattern
 - Swing (for GUI)
-- Interface 
 - Inheritance
 - Encapsulation
 - Polymorphism
