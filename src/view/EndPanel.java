@@ -16,7 +16,7 @@ public class EndPanel extends JPanel implements ActionListener {
 
     private Controller controller;
 
-    public EndPanel(Controller controller){
+    public EndPanel(Controller controller) {
         this.controller = controller;
         setupPanel();
     }

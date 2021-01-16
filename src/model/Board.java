@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Board implements IBoard {
+public abstract class Board {
 
     private String[][] board = new String[10][10];
 

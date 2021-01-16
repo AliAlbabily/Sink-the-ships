@@ -2,7 +2,7 @@ package model;
 
 public class Cruiser extends Ship {
 
-    public Cruiser(){
+    public Cruiser() {
         super("Crui", "Cruiser", 4);
     }
 }

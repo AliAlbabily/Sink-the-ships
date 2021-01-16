@@ -30,9 +30,9 @@ public class Ship {
 
         boolean shipIsDown = checkIfSunk();
 
-        if(shipIsDown){
+        if(shipIsDown) {
             System.out.println(shipLifePoints);
-            return shipName + " Hit! "+ shipName + " Sunk!";
+            return shipName + " Hit! " + shipName + " Sunk!";
         }
 
         System.out.println(shipLifePoints);

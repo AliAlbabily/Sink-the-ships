@@ -1,7 +1,5 @@
 package model;
 
-import controller.Controller;
-
 import javax.swing.*;
 import java.util.*;
 
@@ -9,10 +7,9 @@ public class GameManager {
 
     Scanner input = new Scanner(System.in);
 
-    private Controller controller;
-
     private String[][] currGamePlan;
     private Player player = new Player();
+    private PlayersList playersList;
 
     private Ship currShip = null;
 
@@ -22,53 +19,63 @@ public class GameManager {
     private TorpedoBoat torpedoBoat = new TorpedoBoat();
     private Jagare jagare = new Jagare();
 
+    private String currentShotStatus;
+    private boolean hitStatus;
     private int shipsPointsLeft = 0;
     private boolean gameHasEnded = false;
 
-    public GameManager(Controller controller, int shipsPointsLeft) {
-        this.controller = controller;
+    public GameManager(PlayersList playersList, int shipsPointsLeft) {
         this.shipsPointsLeft = shipsPointsLeft;
+        this.playersList = playersList;
     }
 
+    // TODO : getters and setters
     public String[][] getCurrGamePlan() {
         return currGamePlan;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public String getCurrentShotStatus() {
+        return currentShotStatus;
+    }
+
+    public boolean isHitStatus() {
+        return hitStatus;
+    }
+
+    public int getShipsPointsLeft() {
+        return shipsPointsLeft;
+    }
+
+    public boolean isGameHasEnded() {
+        return gameHasEnded;
+    }
+
+    // slutet på getters and setters
+
     public void PlayerMove(int row, int col) {
         player.updateNumOfShots(); // uppdaterar spelarens score efter varje drag
-        controller.updateNumOfShots(player.getNumOfShots()); // uppdatera view:n via kontrollern
 
         if(currGamePlan[row][col] == null) {
             System.out.println("No hit");
-            controller.updateGameStatus("No hit");
+            currentShotStatus = "No hit";
             currGamePlan[row][col] = "XXXX";
-            controller.updateOnHitStatus(false);
+            hitStatus = false;
         }
         else {
             shipsPointsLeft--; // uppdatera skeppens totala poäng
-            controller.updateTotShipsLifePoints(shipsPointsLeft); // uppdatera view:n via kontrollern
 
             // dynamsik bindning
             currShip = returnCorrectShipObject(row, col);
-            String message = currShip.returnMessageOnHit(currShip.getShipName());
-            controller.updateGameStatus(message);
+            currentShotStatus = currShip.returnMessageOnHit(currShip.getShipName());
             // slutet på dynamsik bindning
 
             currGamePlan[row][col] = "XXXX";
-
             gameHasEnded = endGameMessage(shipsPointsLeft); // variablen tilldelas true när shipsPointsLeft == 0
-
-            if(gameHasEnded) {
-                Player[] tempList = controller.getHighScoreList();
-                int numOfShots = player.getNumOfShots();
-                int worstPointsResult = tempList[9].getNumOfShots(); // slutet på matrisen (höger sidan)
-
-                tempList = checkIfNumOfShotsQualified(tempList, numOfShots, worstPointsResult);
-
-                controller.setupEndFrame(); // starta/visa endFrame fönstret
-                controller.updateHighScoreList(tempList); // uppdatera den orginala listan i kontrollern (måste ligga efter setupEndFrame())
-            }
-            controller.updateOnHitStatus(true);
+            hitStatus = true;
         }
         printGamePlan();
     }
@@ -127,12 +134,12 @@ public class GameManager {
     }
 
     private void moveElementsToRight(int index, Player[] listOfObjects) {
-        for (int i = listOfObjects.length-2; i >= index; i--) {
+        for (int i = listOfObjects.length-2; i >= index; i--) { // f.v: vi börjar på index 8 i listan , a.v: så länge 8 är större/lika med indexet som man hamnar i listan
             listOfObjects[i+1] = listOfObjects[i];
         }
     }
 
-    private Player[] checkIfNumOfShotsQualified(Player[] listOfPlayers, int numOfShots, int worstPointsResult) {
+    public Player[] checkIfNumOfShotsQualified(Player[] listOfPlayers, int numOfShots, int worstPointsResult) {
         if(numOfShots < worstPointsResult) { // kolla om numOfShots kvalar in i HighScore-listan
             for(int i = 0; i < listOfPlayers.length; i++) {
                 int points = listOfPlayers[i].getNumOfShots(); // nuvarande rad poäng
